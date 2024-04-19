@@ -1,0 +1,28 @@
+title: tud-slides
+author: gwbrck
+version: 1.0.0
+quarto-required: ">=1.4.0"
+contributes:
+  formats:
+    common:
+      citeproc: false
+      csl: apa.csl
+      filters:
+        - at: post-render
+          path: citeprocr.lua
+        - at: post-render
+          path: apaandcite.lua
+    beamer:
+        pdf-engine: pdflatex
+        aspectratio: 169
+        fontsize: 10pt
+        theme: "tud"
+        themeoptions: 
+          - "pagenum"
+          - "ddc"
+        slide-level: 2
+        section-titles: false
+        template-partials: 
+          - before-body.tex
+          - doc-class.tex
+          - title.tex    
