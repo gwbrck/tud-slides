@@ -1,24 +1,25 @@
-# Tud-slides Format
+# Unoffical TU Dresden Slides Extension for Quarto: tud-slides
+
+This repository provides a Quarto extension for creating LaTeX beamer presentations using the unofficial TU Dresden corporate design. It leverages beamer templates from [tud-cd](https://github.com/tud-cd/tud-cd). For more detail on theme options, please refer to the mentioned repository.
+
+Currently, this extension only supports either German or English for APA citation style.
 
 ## Installing
 
-*TODO*: Replace the `<github-organization>` with your GitHub organization.
-
-```bash
-quarto use template <github-organization>/tud-slides
+``` bash
+quarto use template gwbrck/tud-slides
 ```
 
-This will install the extension and create an example qmd file that you can use as a starting place for your article.
+This will install the extension and create an example qmd file that you can use as a starting place for your slides.
 
 ## Using
 
-*TODO*: Describe how to use your format.
+To use this extension, add the following to the YAML portion of your document:
 
-## Format Options
+``` yaml
+format:
+  tud-slides-beamer: default
+bibliography: "main.json" # optional; .bib file usage is also supported 
+lang: de # optional; defaults to English (en) if not specified
 
-*TODO*: If your format has options that can be set via document metadata, describe them.
-
-## Example
-
-Here is the source code for a minimal sample document: [example.qmd](example.qmd).
-
+```
