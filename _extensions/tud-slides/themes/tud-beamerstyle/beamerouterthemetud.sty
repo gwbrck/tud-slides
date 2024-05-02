@@ -1,0 +1,1263 @@
+\ProvidesPackage{beamerouterthemetud}[2018/01/10 v3.0 Outer beamer theme in the Corporate Design of TU Dresden]
+% Vom Nutzer anzugebende / veraenderbare Namen und Bezeichnungen
+
+
+
+%\newif\if@useGerman                             % explizit deutsche Namen verwenden und german-Package einbinden ?
+% \newif\if@useNoGerman                           % explizit englische Namen verwenden
+% \DeclareOptionBeamer{nogerman}{\@useNoGermantrue\@useGermanfalse}
+% \DeclareOptionBeamer{german}{\@useGermantrue\@useNoGermanfalse}
+
+\newif\if@useHeader\@useHeadertrue
+\DeclareOptionBeamer{noheader}{\@useHeaderfalse}
+
+\newif\if@smallRightMargin\@smallRightMarginfalse
+\DeclareOptionBeamer{smallrightmargin}{\@smallRightMargintrue}
+
+\newif\if@usePageNum\@usePageNumtrue
+\DeclareOptionBeamer{nopagenum}{\@usePageNumfalse}
+\DeclareOptionBeamer{pagenum}{\@usePageNumtrue}
+
+\newif\if@useNoFrameTitleSection\@useNoFrameTitleSectiontrue
+\DeclareOptionBeamer{section}{\@useNoFrameTitleSectionfalse}
+
+\newif\if@useNavBar\@useNavBarfalse
+\DeclareOptionBeamer{navbar}{\@useNavBartrue}
+
+\newif\if@ddc\@ddcfalse
+\DeclareOptionBeamer{ddc}{\@ddctrue\@ddcfooterfalse}
+\newif\if@ddcfooter
+\@ddcfootertrue
+\DeclareOptionBeamer{ddcfooter}{\@ddcfootertrue\@ddcfalse}
+\DeclareOptionBeamer{noddc}{\@ddcfooterfalse\@ddcfalse}
+
+\def\tudbeamer@outer@style{cd2018}
+\DeclareOptionBeamer{cd2018}{\def\tudbeamer@outer@style{cd2018}}
+\DeclareOptionBeamer{cd2012ts}{\def\tudbeamer@outer@style{cd2012ts}}
+
+
+\ProcessOptionsBeamer\relax
+
+\RequirePackage{tudbeamermacros}
+\RequirePackage{calc}
+
+
+
+
+
+
+\def\tudbeamersetouterstyle#1{%
+  \edef\tudbeamer@outer@style{#1}%
+  \expandafter\let\expandafter\tudbeamer@titlesizes
+}
+
+% Templates
+% Aktuelles DDC-Logo: DDC_Logo_110x50_4C.pdf
+% 110x50 mm
+% N von DD 5,77x7,66+47,16+22,39
+
+
+
+
+\def\tudbeamer@outer@setGermanNames{%
+  \setbeamertemplate{page number: text and total}[german]%
+  \setbeamertemplate{page number: text and filetotal}[german]%
+  \setbeamertemplate{page number: text}[german]%
+  \setbeamertemplate{frame number: text and total}[german]%
+  \setbeamertemplate{frame number: text and filetotal}[german]%
+  \setbeamertemplate{frame number: text}[german]%
+  \setbeamertemplate{frame number: text and total and overlay}[german]%
+  \setbeamertemplate{frame number: text and filetotal and overlay}[german]%
+  \setbeamertemplate{frame number: text and overlay}[german]%
+}
+
+\def\tudbeamer@outer@setEnglishNames{%
+  \setbeamertemplate{page number: text and total}[english]%
+  \setbeamertemplate{page number: text and filetotal}[english]%
+  \setbeamertemplate{page number: text}[english]%
+  \setbeamertemplate{frame number: text and total}[english]%
+  \setbeamertemplate{frame number: text and filetotal}[english]%
+  \setbeamertemplate{frame number: text}[english]%
+  \setbeamertemplate{frame number: text and total and overlay}[english]%
+  \setbeamertemplate{frame number: text and filetotal and overlay}[english]%
+  \setbeamertemplate{frame number: text and overlay}[english]%
+}
+
+
+\AtBeginDocument{%
+  \@ifundefined{captionsgerman}{}{\addto\captionsgerman{\tudbeamer@outer@setGermanNames}}%
+  \@ifundefined{captionsngerman}{}{\addto\captionsngerman{\tudbeamer@outer@setGermanNames}}%
+  \@ifundefined{captionsenglish}{}{\addto\captionsenglish{\tudbeamer@outer@setEnglishNames}}%
+  \@ifundefined{captionsUKenglish}{}{\addto\captionsUKenglish{\tudbeamer@outer@setEnglishNames}}%
+  \@ifundefined{captionsbritish}{}{\addto\captionsbritish{\tudbeamer@outer@setEnglishNames}}%
+  \@ifundefined{captionsamerican}{}{\addto\captionsamerican{\tudbeamer@outer@setEnglishNames}}%
+  \@ifundefined{captionsUSenglish}{}{\addto\captionsUSenglish{\tudbeamer@outer@setEnglishNames}}%
+  \@ifundefined{captionscanadian}{}{\addto\captionscanadian{\tudbeamer@outer@setEnglishNames}}%
+  \@ifundefined{captionsaustralian}{}{\addto\captionsaustralien{\tudbeamer@outer@setEnglishNames}}%
+  \@ifundefined{captionsnewzealand}{}{\addto\captionsnewzealand{\tudbeamer@outer@setEnglishNames}}%
+  \@ifundefined{captions\languagename}{\tudbeamer@outer@setEnglishNames}
+  {\csname captions\languagename\endcsname}%
+}
+
+
+%\mode<presentation>
+\def\insertslideinframe{%
+  \@tempcnta-\beamer@startpageofframe
+  \advance\@tempcnta\c@page
+  \advance\@tempcnta by 1\relax
+  \@arabic\@tempcnta
+}
+
+
+\defbeamertemplate{page layout/cd2012ts}{default}[1][0.125]{%
+}[action]{%
+  \def\tudbeamer@outer@setlength##1##2{%
+    \pgfmathsetlength{##1}{##2 * (#1\paperheight)/65pt}%
+  }%
+  \tudbeamer@outer@setlength\tudbeamerlogowidth{40mm}%
+  \pgfmathsetlength\tudbeamerlogoheight{\tudbeamerlogowidth*0.75/2.57}%
+  \setlength\tudbeamerlogoleftmargin{\beamer@leftmargin-0.3333\tudbeamerlogowidth}%
+  \def\tudbeamerlogorightmargin{\tudbeamerlogoleftmargin}%
+  \pgfmathsetlength\tudbeamerlogotopmargin{#1\paperheight -
+    0.020\paperheight*((#1/0.125)^2) -
+    \tudbeamerlogoheight
+  }%
+  %\setlength{\tudbeamerfooterpagenumwidth}{0.25\linewidth}%
+  \setlength{\tudbeamerfooterplacewidth}{0.25\linewidth}%
+  \setlength{\tudbeamerfootercontentwidth}{\paperwidth - \beamer@leftmargin-\beamer@rightmargin
+    -\tudbeamerfooterpagenumwidth}%
+  \setlength\@tempdima{0.015\paperheight}%
+  \edef\tudbeamer@barheight{\the\@tempdima}%
+  % convenience
+  \setlength{\@tempdima}{%
+    \tudbeamerlogotopmargin+
+    \tudbeamerlogoheight+
+    \tudbeamer@barheight+0.01pt%
+  }%
+  \edef\tudbeamer@headheight{\the\@tempdima}%
+  %
+  \if@smallRightMargin
+  \setlength\beamer@rightmargin{0.10\paperheight}%
+  \else
+  \setlength\beamer@rightmargin{0.15\paperheight}%
+  \fi
+  \setlength\beamer@leftmargin{0.15\paperheight}%
+}
+
+\defbeamertemplate{page layout/cd2018}{default}[1]%
+[\ifdim\paperheight>0.6875\paperwidth]{%
+}[action]{%
+  \setlength\@tempdima{0.11\paperheight}%
+  \edef\tudbeamer@footheight{\the\@tempdima}%
+  \setlength\tudbeamerlogoleftmargin{0.04\paperwidth}%
+  \def\tudbeamerlogorightmargin{\tudbeamerlogoleftmargin}%
+  \setlength\tudbeamerlogoheight{0.048\paperheight}%
+  \pgfmathsetlength\tudbeamerlogowidth{\tudbeamerlogoheight * 2.57/0.75}%
+  \setlength\tudbeamerfootercontentwidth{0.452\paperwidth}%
+  % \setlength\tudbeamerfooterpagenumwidth{0.06\paperwidth}%
+  \edef\tudbeamer@barheight{0pt}%
+  % convenience
+  \setlength{\@tempdima}{%
+    \tudbeamerlogotopmargin+
+    \tudbeamerlogoheight+
+    \tudbeamer@barheight+0.01pt%
+  }%
+  \edef\tudbeamer@headheight{0pt}%
+  \pgfmathsetlength{\tudbeamerbackgroundheight}{%
+    \paperheight-\tudbeamer@headheight-\tudbeamer@footheight%
+  }%
+  \setlength\tudbeamerbackgroundwidth{\paperwidth}%
+  \def\tudbeamer@backgroundshadeangle{20}%
+  \def\tudbeamer@backgroundstart{\tudbeamer@footheight}%
+  \setlength{\tudbeamerfooterplacewidth}{0.25\linewidth}%
+  \setlength\tudbeamerlogotopmargin{0.0509\paperheight}%
+  %
+  #1
+  \setlength\beamer@leftmargin{\tudbeamerlogoleftmargin}%
+  \else
+  \setlength\beamer@leftmargin{\tudbeamerlogoleftmargin+0.3333\tudbeamerlogowidth}%
+  \fi
+  \setlength\beamer@rightmargin{\beamer@leftmargin}%
+}
+
+\defbeamertemplate*{page layout}{default}{%
+}[action]{%
+  \setbeamertemplate{page layout/\tudbeamer@outer@style}[default]%
+}
+
+\defbeamertemplate{page layout/cd2018}{titlepage}{%
+}[action]{%
+  \def\tudbeamer@footheight{0pt}%
+  \setlength\tudbeamerlogotopmargin{0.0509\paperheight}%
+  \pgfmathsetlength\tudbeamerlogowidth{sqrt((\paperheight / 1cm)* (\paperwidth / 1cm)) * 0.1927cm}%
+  \pgfmathsetlength\tudbeamerlogoheight{\tudbeamerlogowidth*0.75/2.57}%
+  \setlength\@tempdima{0.025\paperheight}%
+  \edef\tudbeamer@barheight{\the\@tempdima}%
+  \pgfmathsetlength\tudbeamerlogoleftmargin{max(0.0717\paperwidth-0.3333*\tudbeamerlogowidth,
+    \tudbeamer@barheight,0.0407\paperheight)}%
+  \def\tudbeamerlogorightmargin{\tudbeamerlogoleftmargin}%
+  \setlength{\@tempdima}{%
+    \tudbeamerlogotopmargin+
+    \tudbeamerlogoheight+
+    \tudbeamer@barheight+0.01pt%
+  }%
+  \edef\tudbeamer@headheight{\the\@tempdima}%
+  \pgfmathsetlength{\tudbeamerbackgroundheight}{%
+    \paperheight-\tudbeamer@headheight%
+  }%
+  \setlength\tudbeamerbackgroundwidth{\paperwidth}%
+  \def\tudbeamer@backgroundshadeangle{20}%
+  \def\tudbeamer@backgroundstart{0pt}%
+  % convenience
+  \setlength\tudbeamerfootercontentwidth{0.452\paperwidth}%
+  %\setlength\tudbeamerfooterpagenumwidth{0.0579\paperwidth}%
+  \setlength{\tudbeamerfooterplacewidth}{0.25\linewidth}%
+  %
+  \setlength\beamer@leftmargin{\tudbeamerlogoleftmargin+0.3333\tudbeamerlogowidth}%
+  \setlength\beamer@rightmargin{\beamer@leftmargin}%
+  %
+}
+
+\defbeamertemplate{page layout/cd2012ts}{titlepage}{%
+}[action]{%
+  \setbeamertemplate{page layout/cd2012ts}[default][0.175]%
+  \setlength\@tempdima{0.025\paperheight}%
+  \edef\tudbeamer@barheight{\the\@tempdima}%
+}
+
+\defbeamertemplate{page layout}{titlepage}{%
+}[action]{%
+  \setbeamertemplate{page layout/\tudbeamer@outer@style}[titlepage]%
+}
+
+\defbeamertemplate{page layout/cd2012ts}{partpage}{%
+}[action]{%
+  \setbeamertemplate{page layout/cd2012ts}[default]%
+}
+\defbeamertemplate{page layout/cd2018}{partpage}{%
+}[action]{%
+  \setbeamertemplate{page layout/cd2018}[default][\iffalse]%
+}
+
+\defbeamertemplate{page layout}{partpage}{%
+}[action]{%
+  \setbeamertemplate{page layout/\tudbeamer@outer@style}[partpage]%
+}
+
+
+\if@useNavBar\else\setbeamertemplate{navigation symbols}{}\fi    % Nav-Leiste aus
+
+
+
+
+
+\def\logo@front{logo_weiss}
+\def\logo@default{logo_blau}
+\ifx\pdfoutput\undefined
+\else
+  \ifx\pdfoutput\relax
+  \else
+    \ifcase\pdfoutput
+    \else
+      \def\logo@front{TU_Logo_SW}%
+      \def\logo@default{TU_Logo_SW}%
+    \fi
+  \fi
+\fi
+
+\defbeamertemplate{einrichtung/titlepage}{empty}{%
+}
+\defbeamertemplate{fachrichtung/titlepage}{empty}{%
+}
+\defbeamertemplate{institut/titlepage}{empty}{%
+}
+\defbeamertemplate{professur/titlepage}{empty}{%
+}
+
+\institute[%
+  \usebeamertemplate{einrichtung}%
+  \usebeamertemplate{fachrichtung}%
+  \usebeamertemplate{institut}%
+  \usebeamertemplate{professur}%
+  ]{%
+  \usebeamertemplate{einrichtung/titlepage}%
+  \usebeamertemplate{fachrichtung/titlepage}%
+  \usebeamertemplate{institut/titlepage}%
+  \usebeamertemplate{professur/titlepage}%
+}
+
+\defbeamertemplate*{einrichtung/titlepage}{default}{%
+  % Hier muss ein Leerzeichen folgen
+  \iftudbeameremptyoutput\@einrichtung{}{%
+    \@einrichtung%
+    \iftudbeameremptyoutput\@fachrichtung{%
+      \iftudbeameremptyoutput\@institut{%
+        \iftudbeameremptyoutput\@professur{}{, }%
+      }{, }%
+    }{, }%
+  }%
+  \strut
+}
+\defbeamertemplate*{fachrichtung/titlepage}{default}{%
+  \iftudbeameremptyoutput{\@fachrichtung}{}{%
+    \@fachrichtung
+    \iftudbeameremptyoutput{\@institut}{%
+      \iftudbeameremptyoutput{\@professur}{}{, }}{, }%
+  }%
+  \strut
+}
+\defbeamertemplate*{institut/titlepage}{default}{%
+  \iftudbeameremptyoutput{\@institut}{}{%
+    \@institut
+    \iftudbeameremptyoutput{\@professur}{}{, }%
+  }%
+  \strut
+}
+\defbeamertemplate*{professur/titlepage}{default}{%
+  \iftudbeameremptyoutput\@professur{}{%
+    \@professur%
+  }%
+  \strut
+}
+
+
+\defbeamertemplate*{einrichtung}{default}{%
+  \iftudbeameremptyoutput{\@professur}{%
+    \iftudbeameremptyoutput{\@institut}{%
+      \iftudbeameremptyoutput{\@fachrichtung}{%
+        \iftudbeameremptyoutput\@einrichtung{}{
+          \@einrichtung\strut
+        }%
+      }{}}{}}{}%
+}
+\defbeamertemplate*{fachrichtung}{default}{%
+  \iftudbeameremptyoutput\@professur{%
+    \iftudbeameremptyoutput\@institut{%
+      \iftudbeameremptyoutput\@fachrichtung{}{%
+        \@fachrichtung\strut
+      }%
+    }{}}{}%
+}
+\defbeamertemplate*{institut}{default}{%
+  \iftudbeameremptyoutput\@professur{%
+    \iftudbeameremptyoutput\@institut{}{%
+      \@institut
+      \strut
+    }%
+  }{}%
+}
+\defbeamertemplate*{professur}{default}{%
+  \iftudbeameremptyoutput\@professur{}{%
+    \@professur%
+    \strut
+  }%
+}
+
+
+\defbeamertemplate*{zweitlogo/titlepage}{default}{}
+\defbeamertemplate{zweitlogo/titlepage}{logofile}[1]{%
+  \includegraphics[height=\tudbeamerlogoheight]{#1}%
+}
+\defbeamertemplate*{zweitlogo/titlepage ddc}{cd2018}{%
+  \@tempdima\tudbeamerlogoheight
+  \vbox to \tudbeamerlogoheight{%
+    \vss
+    \setbox\@tempboxa\hbox{%
+      \raisebox{-0.0555\@tempdima}{%
+        \includegraphics[height=1.111\@tempdima]{DDC_Logo_110x50_4C}%
+        \hskip-0.0555\@tempdima%
+      }%
+    }%
+    \hsize=\wd\@tempboxa
+    \usebox\@tempboxa
+    \par\vss
+  }%
+}
+\defbeamertemplate*{zweitlogo/titlepage ddc}{cd2012ts}{%
+  \includegraphics[height=\tudbeamerlogoheight]{DDC-weiss}%
+}
+\defbeamertemplate*{zweitlogo/titlepage}{ddc}{%
+  \usebeamertemplate{zweitlogo/titlepage ddc}%
+}
+
+\defbeamertemplate{zweitlogo/titlepage}{freeform}[1]{%
+  \def\logoheight{\tudbeamerlogoheight}%
+  #1%
+}
+\setbeamertemplate{zweitlogo/titlepage ddc}[\tudbeamer@outer@style]%
+
+\defbeamertemplate*{zweitlogo/footline}{default}{}
+\defbeamertemplate{zweitlogo/footline}{logofile}[1]{%
+  \def\logoheight{\tudbeamerlogoheight}%
+  \includegraphics[height=\logoheight]{#1}%
+}
+\defbeamertemplate{zweitlogo/footline}{ddc}{%
+  \def\logoheight{\tudbeamerlogoheight}%
+  \vbox to \logoheight{%
+    \vss
+    \setbox\@tempboxa\hbox{%
+      \includegraphics[height=1.111\logoheight]{DDC_Logo_110x50_4C}%
+      \hskip-0.0555\logoheight%
+    }%
+    \hsize=\wd\@tempboxa
+    \usebox\@tempboxa
+    \par\vss
+  }%
+}
+\defbeamertemplate{zweitlogo/footline}{freeform}[1]{%
+  \def\logoheight{\tudbeamerlogoheight}%
+  #1%
+}
+
+
+\defbeamertemplate*{zweitlogo/headline}{default}{}
+\defbeamertemplate{zweitlogo/headline}{logofile}[1]{%
+  \includegraphics[height=\tudbeamerlogoheight]{#1}%
+}
+\defbeamertemplate{zweitlogo/headline}{ddc}{%
+  % \includegraphics[height=\tudbeamerlogoheight]{DDC-weiss}%
+  \includegraphics[height=\tudbeamerlogoheight]{DDC-09}%
+}
+\defbeamertemplate{zweitlogo/headline}{freeform}[1]{%
+  \def\logoheight{\tudbeamerlogoheight}%
+  #1%
+}
+\if@ddc
+\setbeamertemplate{zweitlogo/titlepage}[ddc]
+\setbeamertemplate{zweitlogo/headline}[ddc]
+\else
+\if@ddcfooter
+\setbeamertemplate{zweitlogo/titlepage}[ddc]
+\setbeamertemplate{zweitlogo/headline}[ddc]
+\else
+\setbeamertemplate{zweitlogo/titlepage}[default]
+\setbeamertemplate{zweitlogo/headline}[default]
+\fi
+\fi
+
+
+\defbeamertemplate{headline}{titlepage}{%
+  \usebeamertemplate{headline/titlepage}%
+}
+
+\defbeamertemplate*{headline/titlepage}{default}{%
+}[action]{\setbeamertemplate{headline/titlepage}[tud \tudbeamer@outer@style]}
+
+\defbeamertemplate{headline/titlepage}{tud cd2012ts}{%
+  \vbox to 0.175\paperheight{%
+    \vskip\tudbeamerlogotopmargin
+    \hskip\tudbeamerlogoleftmargin
+    \usebeamercolor[fg]{logo/titlepage}%
+    \includegraphics[width=\tudbeamerlogowidth]{\logo@front}%
+    \hfill
+    \usebeamertemplate{zweitlogo/titlepage}
+    \hskip\beamer@rightmargin\hbox{}%
+    \vskip 0pt plus 1 fil\relax
+  }%
+  \usebeamercolor[fg]{upper separation line head/titlepage}%
+  \rule{\paperwidth}{0.3pt}\par%
+  \vbox to \tudbeamer@barheight{\vskip 0pt plus 1 fil
+    \hskip\beamer@leftmargin%
+    \usebeamertemplate*{einrichtung/titlepage}%
+    \usebeamertemplate*{fachrichtung/titlepage}%
+    \usebeamertemplate*{institut/titlepage}%
+    \usebeamertemplate*{professur/titlepage}%
+    \par%
+    \vskip 0pt plus 1 fil
+  }%
+  \usebeamercolor[fg]{lower separation line head/titlepage}%
+  \rule{\paperwidth}{0.3pt}\par
+}
+
+\defbeamertemplate{headline/titlepage}{tud cd2018}{%
+  \vskip\tudbeamerlogotopmargin
+  \hskip\tudbeamerlogoleftmargin%
+  \usebeamercolor[fg]{logo}%
+  \includegraphics[width=\tudbeamerlogowidth]{\logo@default}%
+  \hfill
+  \usebeamertemplate{zweitlogo/titlepage}%
+  \hskip\tudbeamerlogorightmargin\hbox{}%
+  \par
+  \vskip\tudbeamer@barheight
+  \vskip\tudbeamer@barheight
+}
+
+
+\defbeamertemplate{background}{titlepage}{%
+  \usebeamertemplate{background/titlepage}%
+}
+
+\defbeamertemplate*{background/titlepage}{default}{%
+}[action]{\setbeamertemplate{background/titlepage}{\tudbeamer@outer@style}}
+
+\defbeamertemplate{background/titlepage}{tud cd2012ts}{%
+}
+
+\defbeamertemplate{background/titlepage}{tud cd2018}{%
+  \usebeamertemplate{background/shaded}%
+}
+
+\defbeamertemplate*{tud background shade}{default}[1][20]{%
+  \usebeamercolor{titleshading}%
+  \pgfdeclareverticalshading{tud titlepage background}%
+  {100bp}{
+    color(0bp)=(fg);
+    color(25bp)=(fg);
+    color(75bp)=(bg);
+    color(100bp)=(bg)}%
+  \pgfpathrectangle{%
+    \pgfpoint{0pt}{0}%
+  }{%
+    \pgfpoint{\tudbeamerbackgroundwidth}{\tudbeamerbackgroundheight}%
+  }%
+  \pgfshadepath{tud titlepage background}{#1}%
+  % \pgfusepath{draw}%
+  \pgfusepath{discard}%
+}
+
+\defbeamertemplate*{tud background}{shaded}[1][20]{%
+  \usebeamertemplate{tud background shade}%
+}[action]{%
+  \setbeamertemplate{tud background shade}[default][#1]%
+}
+
+\defbeamertemplate*{tud background image}{default}[2][width=\tudbeamerbackgroundwidth,
+height=\tudbeamerbackgroundheight]{%
+  % \pgfnode{rectangle}{south east}{%
+  \setbox\@tempboxa\hbox{%
+    \begin{pgfinterruptpicture}%
+      \includegraphics[#1]{#2}%
+    \end{pgfinterruptpicture}%
+  }%
+  \pgfqboxsynced\@tempboxa
+%  }{backgronud image}{\pgfusepath{discard}}%
+}
+
+\defbeamertemplate{tud background}{image}[2][width=\tudbeamerbackgroundwidth,
+height=\tudbeamerbackgroundheight]{
+  \usebeamertemplate{tud background image}%
+}[action]{%
+  \setbeamertemplate{tud background image}[default][#1]{#2}%
+}
+
+
+\defbeamertemplate{tud background}{image/shaded}[3][width=\tudbeamerbackgroundwidth,
+height=\tudbeamerbackgroundheight]{}[action]{%
+  \setbeamertemplate{tud background}[image/shaded/pgfoverlay][#1]{#2}{#3}{}%
+}
+
+\defbeamertemplate{tud background}{image/pgfoverlay}[3][width=\tudbeamerbackgroundwidth,
+height=\tudbeamerbackgroundheight]{%
+  \usebeamertemplate{tud background image}%
+  #3%
+}[action]{%
+  \setbeamertemplate{tud background image}[default][#1]{#2}%
+}
+\defbeamertemplate{tud background}{image/shaded/pgfoverlay}[4][width=\tudbeamerbackgroundwidth,
+height=\tudbeamerbackgroundheight]{%
+  \usebeamertemplate{tud background image}%
+  \pgfsetfillopacity{#3}%
+  \usebeamertemplate{tud background shade}%
+  #4%
+}[action]{%
+  \setbeamertemplate{tud background image}[default][#1]{#2}%
+  \setbeamertemplate{tud background shade}[default]%
+}
+
+\defbeamertemplate{tud background}{image/overlay}[3][width=\tudbeamerbackgroundwidth,
+height=\tudbeamerbackgroundheight]{}[action]{%
+  \setbeamertemplate{tud background}[image/pgfoverlay][#1]{#2}{%
+    \setbox\@tempboxa\hbox{%
+      \begin{pgfinterruptpicture}%
+        #3%
+      \end{pgfinterruptpicture}%
+    }%
+    \pgfqboxsynced\@tempboxa
+  }
+}
+\defbeamertemplate{tud background}{image/shaded/overlay}[4][width=\tudbeamerbackgroundwidth,
+height=\tudbeamerbackgroundheight]{}[action]{%
+  \setbeamertemplate{tud background}[image/shaded/pgfoverlay][#1]{#2}{#3}{%
+    \setbox\@tempboxa\hbox{%
+      \begin{pgfinterruptpicture}%
+        #4%
+      \end{pgfinterruptpicture}%
+    }%
+    \pgfqboxsynced\@tempboxa
+  }
+}
+\defbeamertemplate{tud background}{image/tikzoverlay}[3][width=\tudbeamerbackgroundwidth,
+height=\tudbeamerbackgroundheight]{}[action]{%
+  \setbeamertemplate{tud background}[image/overlay][#1]{#2}{%
+    \begin{tikzpicture}%
+      \useasboundingbox (0,0) -- (\tudbeamerbackgroundwidth,\tudbeamerbackgroundheight);
+      #3%
+    \end{tikzpicture}%
+  }
+}
+\defbeamertemplate{tud background}{image/shaded/tikzoverlay}[4][width=\tudbeamerbackgroundwidth,
+height=\tudbeamerbackgroundheight]{}[action]{%
+  \setbeamertemplate{tud background}[image/shaded/overlay][#1]{#2}{#3}{%
+    \begin{tikzpicture}%
+      \useasboundingbox (0,0) -- (\tudbeamerbackgroundwidth,\tudbeamerbackgroundheight);
+      #4%
+    \end{tikzpicture}%
+  }
+}
+
+
+\defbeamertemplate*{background/shaded}{tud cd2018}{%
+    % The shades are automatically scaled as needed, when used in graphics context
+  % {\tudbeamer@title@backgroundshadelength}{color(0cm)=(red);color(\paperwidth)=(blue)}%
+  \usebeamercolor{normal text}%
+  \begin{pgfpicture}%
+%    \color{green}%
+ %   \pgfusepath{fill}%
+%    \pgfpathrectangle{\pgfpoint{0}{0}}{\pgfpoint{\paperwidth}{\tudbeamer@title@backgroundheight}}%
+%    \pgfusepath{clip}%
+    \pgfpathrectangle{%
+      \pgfpoint{0pt}{0pt}%
+    }{%
+      \pgfpoint{\paperwidth}{\paperheight}%
+    }%
+    \pgfusepath{use as bounding box}%
+    \begin{pgfscope}%
+      \pgfpathrectangle{%
+        \pgfpoint{0pt}{\tudbeamer@backgroundstart}%
+      }{%
+        \pgfpoint{\tudbeamerbackgroundwidth}{\tudbeamerbackgroundheight}%
+      }%
+      \pgfusepath{clip}%
+      \pgftransformshift{\pgfpoint{0pt}{\tudbeamer@backgroundstart}}%
+      \usebeamertemplate{tud background}%
+    \end{pgfscope}%
+    %\pgfsetadditionalshadetransform{\pgftransformshift{-0.25\paperwidth}{0pt}}%
+    % \begin{pgfscope}
+    %   \color{red}%
+    %   \pgftransformrotate{tudbeamer@backgroundshadeangle}%
+    %   \pgfpathrectangle{\pgfpoint{-\paperwidth}{0}}{\pgfpoint{-\paperwidth}{\tudbeamerbackgroundheight}}%
+    %   \pgfusepath{fill}%
+    % \end{pgfscope}
+    \color{normal text.bg}%
+    \pgfsetfillopacity{0.6}%
+    \pgfpathrectangle{\pgfpoint{0}{\tudbeamer@backgroundstart+\tudbeamerbackgroundheight-\tudbeamer@barheight}}%
+    {\pgfpoint{\paperwidth}{\tudbeamer@barheight}}%
+    \pgfusepath{fill}%
+  \end{pgfpicture}%
+  % \hbox to \paperwidth{%
+  %   \pgftransformrotate{\tudbeamer@backgroundshadeangle}%
+  %   \pgfuseshading{tud titlepage background}%
+  %   \vbox to \tudbeamerbackgroundheight{\hbox{\tudbeamerbackgroundheight}}%
+  % }
+}
+
+\defbeamertemplate{headline}{tud header cd2012ts}{%
+  \vbox to 0.125\paperheight{%
+    \vskip\tudbeamerlogotopmargin
+    \hskip\tudbeamerlogoleftmargin%
+    \usebeamercolor[fg]{logo}%
+    \includegraphics[width=\tudbeamerlogowidth]{\logo@default}%
+    \hfill
+    \usebeamertemplate{zweitlogo/headline}
+    \hskip\beamer@rightmargin\hbox{}%
+    \vskip 0pt plus 1 fil\relax
+  }%
+  \usebeamercolor[fg]{upper separation line head}%
+  \rule{\paperwidth}{0.3pt}\par
+  \vskip\tudbeamer@barheight
+  \usebeamercolor[fg]{lower separation line head}%
+  \rule{\paperwidth}{0.3pt}\par
+}
+
+\defbeamertemplate{headline}{tud header cd2018}{%
+}
+
+\defbeamertemplate*{headline}{tud header}{%
+}[action]{%
+  \setbeamertemplate{headline}[tud header \tudbeamer@outer@style]%
+}
+
+
+
+\defbeamertemplate{headline}{tud noheader}{%
+  % \rule{0pt}{14.57mm}
+  \rule{0pt}{\the\topmarginnoheader}%
+}
+
+
+\defbeamertemplate*{date/place in footline}{default}[1][TU~Dresden]{%
+  \parbox[b]\tudbeamerfooterplacewidth{%
+    \raggedright
+    \iftudbeameremptyoutput{#1}{}{%
+      #1%
+      \iftudbeameremptyoutput\insertshortdate{}{, }%
+    }%
+    \insertshortdate
+    \strut
+  }%
+}
+
+\defbeamertemplate{title in head/foot}{tud cd2012ts}{%
+  \setlength\@tempdima{\tudbeamerfootercontentwidth-\tudbeamerfooterplacewidth}%
+  \parbox[b]{\@tempdima}{%
+    \centering\insertshorttitle%h
+    \strut
+  }%
+}
+\defbeamertemplate{title in head/foot}{tud cd2018}{%
+  {\def\\{, }\insertshorttitle}\strut
+}
+\defbeamertemplate*{title in head/foot}{tud}{%
+}[action]{%
+  \setbeamertemplate{title in head/foot}[tud \tudbeamer@outer@style]
+}
+
+\defbeamertemplate*{institute in head/foot}{tud}{%
+  \insertshortinstitute\strut
+  \iftudbeameremptyoutput{\beamer@shortinstitute}{}{%
+    \iftudbeameremptyoutput{\beamer@shortauthor}{}{ // }%
+  }%
+}
+
+\defbeamertemplate*{author in head/foot}{tud}{%
+  \insertshortauthor\strut
+}
+
+\defbeamertemplate*{date/place in head/foot}{tud}{%
+  \insertdatecity
+  \iftudbeameremptyoutput{\insertdatecity}{}{%
+    \iftudbeameremptyoutput{\insertshortdate}{}{, }%
+  }%
+}
+
+\defbeamertemplate*{date in head/foot}{tud}{%
+  \insertshortdate
+}
+
+\defbeamertemplate{page number in footline}{page}[1][text and total]{%
+  \usebeamertemplate{page number: #1}%
+}
+\defbeamertemplate*{page number in footline}{frame}[1][text and total]{%
+  \usebeamertemplate{frame number: #1}%
+}
+
+\defbeamertemplate*{page number: text and total}{english}{%
+  Page \pagenumberbox{\insertpagenumber} of \insertpresentationendpage
+}
+\defbeamertemplate*{page number: text and filetotal}{english}{%
+  Page \pagenumberbox{\insertpagenumber} of \inserttotalpagenumber
+}
+\defbeamertemplate*{page number: text}{english}{%
+  Page \pagenumberbox{\insertpagenumber}%
+}
+\defbeamertemplate{page number: text and total}{german}{%
+  Seite \pagenumberbox{\insertpagenumber}\ von \insertpresentationendpage
+}
+\defbeamertemplate{page number: text and filetotal}{german}{%
+  Seite \pagenumberbox{\insertpagenumber}\ von \inserttotalpagenumber
+}
+\defbeamertemplate{page number: text}{german}{%
+  Seite \pagenumberbox{\insertpagenumber}%
+}
+\defbeamertemplate*{page number: total}{default}{%
+  \pagenumberbox{\insertpagenumber}/\inserttotalpagenumber
+}
+\defbeamertemplate*{page number: only}{default}{%
+  \pagenumberbox{\insertpagenumber}%
+}
+\defbeamertemplate*{frame number: text and total}{english}{%
+  Slide~\framenumberbox{\insertframenumber} of~\insertpresentationendframe
+}
+\defbeamertemplate*{frame number: text and filetotal}{english}{%
+  Slide~\framenumberbox{\insertframenumber} of~\inserttotalframenumber
+}
+\defbeamertemplate*{frame number: text and total and overlay}{english}{%
+  Slide \framenumberbox{\insertframenumber}.\insertslideinframe{} of~\insertpresentationendframe
+}
+\defbeamertemplate*{frame number: text and filetotal and overlay}{english}{%
+  Slide \framenumberbox{\insertframenumber}.\insertslideinframe{} of \inserttotalframenumber
+}
+\defbeamertemplate*{frame number: text}{english}{%
+  Slide~\framenumberbox{\insertframenumber}%
+}
+\defbeamertemplate*{frame number: text and overlay}{english}{%
+  Slide \framenumberbox{\insertframenumber}.\insertslideinframe%
+}
+\defbeamertemplate{frame number: text and total}{german}{%
+  Folie \framenumberbox{\insertframenumber} von \insertpresentationendframe
+}
+\defbeamertemplate{frame number: text and filetotal}{german}{%
+  Folie \framenumberbox{\insertframenumber} von \inserttotalframenumber
+}
+\defbeamertemplate{frame number: text and total and overlay}{german}{%
+  Folie \framenumberbox{\insertframenumber}.\insertslideinframe{} von \insertpresentationendframe
+}
+\defbeamertemplate{frame number: text and filetotal and overlay}{german}{%
+  Folie \framenumberbox{\insertframenumber}.\insertslideinframe{} von \inserttotalframenumber
+}
+\defbeamertemplate{frame number: text}{german}{%
+  Folie~\framenumberbox{\insertframenumber}%
+}
+\defbeamertemplate{frame number: text and overlay}{german}{%
+  Folie \framenumberbox{\insertframenumber}.\insertslideinframe%
+}
+\defbeamertemplate*{frame number: total}{default}{%
+  \framenumberbox{\insertframenumber}/\insertpresentationendframe
+}
+\defbeamertemplate*{frame number: filetotal}{default}{%
+  \framenumberbox{\insertframenumber}/\inserttotalframenumber
+}
+\defbeamertemplate*{frame number: total and overlay}{default}{%
+  \framenumberbox{\insertframenumber}.\insertslideinframe/\insertpresentationendframe
+}
+\defbeamertemplate*{frame number: filetotal and overlay}{default}{%
+  \framenumberbox{\insertframenumber}.\insertslideinframe/\inserttotalframenumber
+}
+\defbeamertemplate*{frame number: only}{default}{%
+  \framenumberbox{\insertframenumber}%
+}
+\defbeamertemplate*{frame number: overlay}{default}{%
+  \framenumberbox{\insertframenumber}.\insertslideinframe
+}
+
+\defbeamertemplate{footline}{titlepage}{%
+  \usebeamertemplate{footline/titlepage}%
+}
+
+\defbeamertemplate{footline/titlepage}{tud cd2018}{%
+}
+
+
+\defbeamertemplate{footline/titlepage}{tud cd2012ts}{%
+  % \vfill
+  \hbox to \textwidth{%
+    \hskip\beamer@leftmargin
+    \usebeamerfont*{date in head/foot/titlepage}%
+    \usebeamercolor[fg]{date in head/foot/titlepage}%
+    \iftudbeameremptyoutput{\insertdatecity}{}{%
+      \insertdatecity
+      \iftudbeameremptyoutput{\insertdate}{}{, }%
+    }%
+    \insertdate%
+    \strut
+    \hskip 0pt plus 1 fil\relax
+    \if@ddcfooter
+    \includegraphics[height=0.424\tudbeamerlogowidth]{DDC-weissf}%
+    \fi
+    \hskip\beamer@rightmargin
+  }%
+  \vskip0.125\paperheight
+}
+
+\defbeamertemplate*{upper separation line foot}{default}{%
+  \rule{\paperwidth}{0.3pt}\par
+  \vskip 0.1em\relax
+}
+\defbeamertemplate{footline}{tud pagenum cd2012ts}{%
+  \usebeamertemplate***{upper separation line foot}%
+  \usebeamerfont{footline}%
+  \hbox to \paperwidth{%
+    \hskip\beamer@leftmargin
+    \usebeamertemplate***{date/place in footline}%
+    \hskip 0pt plus 1 fil minus 1 fil\relax
+    \usebeamertemplate***{title in head/foot}%
+    \hskip 0pt plus 1 fil minus 1 fil\relax
+    \tudbeamermakefooterbox\tudbeamerfooterpagenumwidth{%
+      \setbox\@tempboxa\hbox{\usebeamertemplate***{page number in footline}}%
+      \@tempdima\wd\@tempboxa\relax
+      \ifdim \@tempdima>\tudbeamer@footerpagenumwidth
+        \tudbeamer@footerpagenumwidth\@tempdima
+        \tudbeamerfooterpagenumwidth\@tempdima
+      \fi
+      \hbox to \tudbeamerfooterpagenumwidth{\unhbox\@tempboxa\hfill}%
+    }%
+    \hskip\beamer@rightmargin
+  }%
+}
+
+\defbeamertemplate{footline}{tud pagenum cd2018}{%
+  \usebeamertemplate***{upper separation line foot}%
+  \vbox to \tudbeamer@footheight{%
+    \setlength\@tempdima{\tudbeamer@footheight-\tudbeamerlogoheight}%
+    \vskip 0.45\@tempdima%
+    \setbox\@tempboxa\hbox to \paperwidth{%
+      \usebeamerfont{footline}%
+      \hskip\tudbeamerlogoleftmargin
+      \vbox to \tudbeamerlogoheight {%
+        \hsize=\tudbeamerlogowidth
+        \usebeamercolor[fg]{logo}%
+        \includegraphics[width=\tudbeamerlogowidth]{\logo@default}%
+        \par
+      }%
+      \hfill
+      \vbox to \tudbeamerlogoheight{%
+        \hsize=1em\relax
+        \usebeamercolor[fg]{footline}%
+        \def\\{, }%
+        \setbox\@tempboxa\hbox{%
+          \usebeamertemplate***{title in head/foot}\strut
+        }%
+        \ifdim\wd\@tempboxa > \hsize\relax
+          \hsize=\wd\@tempboxa
+        \fi
+        \usebox\@tempboxa
+        \par
+        % \leavevmode
+        \setbox\@tempboxa\hbox{%
+          \usebeamertemplate***{institute in head/foot}%
+          \usebeamertemplate***{author in head/foot}\strut
+        }%
+        \ifdim\wd\@tempboxa > \hsize\relax
+          \hsize=\wd\@tempboxa
+        \fi
+        \usebox\@tempboxa
+        \par
+        \setbox\@tempboxa\hbox{%
+          \usebeamertemplate***{date/place in head/foot}\strut%
+          \usebeamertemplate***{date in head/foot}\strut
+        }%
+        \ifdim\wd\@tempboxa > \hsize\relax
+          \hsize=\wd\@tempboxa
+        \fi
+        \usebox\@tempboxa
+        \par%
+        \vss
+        \ifdim\hsize > \tudbeamerfootercontentwidth\relax
+          \hsize=\tudbeamerfootercontentwidth
+        \fi
+      }%
+      \hfill
+      \tudbeamermakefooterbox\tudbeamerfooterpagenumwidth{%
+        \setbox\@tempboxa\hbox{\usebeamertemplate***{page number in footline}}%
+        \@tempdima\wd\@tempboxa\relax
+        \ifdim \@tempdima>\tudbeamer@footerpagenumwidth
+          \global\tudbeamer@footerpagenumwidth\@tempdima
+          \global\tudbeamerfooterpagenumwidth\@tempdima
+        \fi
+        \hbox to \tudbeamerfooterpagenumwidth{\unhbox\@tempboxa\hfill}%
+      }%
+      \hfill
+      \setbox\@tempboxa\hbox{\usebeamertemplate{zweitlogo/titlepage}}%
+      \vbox to \tudbeamerlogoheight{%
+        \hsize=\wd\@tempboxa
+        \vss
+        \usebox\@tempboxa\par
+        \vss
+      }
+      \hskip\tudbeamerlogoleftmargin
+    }%
+    %\vskip\ht\@tempboxa
+    \usebox\@tempboxa
+    \vfill
+  }%
+}
+
+\defbeamertemplate{footline}{tud nopagenum cd2018}{%
+  \usebeamertemplate***{upper separation line foot}%
+  \vbox to \tudbeamer@footheight{%
+    \setlength\@tempdima{\tudbeamer@footheight-\tudbeamerlogoheight}%
+    \vskip 0.45\@tempdima%
+    \setbox\@tempboxa\hbox to \paperwidth{%
+      \usebeamerfont{footline}%
+      \hskip\tudbeamerlogoleftmargin
+      \vbox to \tudbeamerlogoheight {%
+        \hsize=\tudbeamerlogowidth
+        \usebeamercolor[fg]{logo}%
+        \includegraphics[width=\tudbeamerlogowidth]{\logo@default}%
+        \par
+      }%
+      \hfill
+      \vbox to \tudbeamerlogoheight{%
+        \hsize=1em\relax
+        \usebeamercolor[fg]{footline}%
+        \def\\{, }%
+        \setbox\@tempboxa\hbox{%
+          \usebeamertemplate***{title in head/foot}\strut
+        }%
+        \ifdim\wd\@tempboxa > \hsize\relax
+          \hsize=\wd\@tempboxa
+        \fi
+        \usebox\@tempboxa
+        \par
+        % \leavevmode
+        \setbox\@tempboxa\hbox{%
+          \usebeamertemplate***{institute in head/foot}%
+          \usebeamertemplate***{author in head/foot}\strut
+        }%
+        \ifdim\wd\@tempboxa > \hsize\relax
+          \hsize=\wd\@tempboxa
+        \fi
+        \usebox\@tempboxa
+        \par
+        \setbox\@tempboxa\hbox{%
+          \usebeamertemplate***{date/place in head/foot}\strut%
+          \usebeamertemplate***{date in head/foot}\strut
+        }%
+        \ifdim\wd\@tempboxa > \hsize\relax
+          \hsize=\wd\@tempboxa
+        \fi
+        \usebox\@tempboxa
+        \par%
+        \vss
+        \ifdim\hsize > \tudbeamerfootercontentwidth\relax
+          \hsize=\tudbeamerfootercontentwidth
+        \fi
+      }%
+      \hfill
+      \setbox\@tempboxa\hbox{\usebeamertemplate{zweitlogo/titlepage}}%
+      \vbox to \tudbeamerlogoheight{%
+        \hsize=\wd\@tempboxa
+        \vss
+        \usebox\@tempboxa\par
+        \vss
+      }
+      \hskip\tudbeamerlogoleftmargin
+    }%
+    %\vskip\ht\@tempboxa
+    \usebox\@tempboxa
+    \vfill
+  }%
+}
+
+\defbeamertemplate*{footline}{tud pagenum}{%
+}[action]{%
+  \setbeamertemplate{footline}[tud pagenum \tudbeamer@outer@style]%
+}
+
+\defbeamertemplate{footline}{tud nopagenum cd2012ts}{%
+  \usebeamertemplate***{upper separation line foot}%
+  \usebeamerfont{footline}%
+  \hbox{%
+    \hskip\beamer@leftmargin
+    \usebeamertemplate***{date/place in footline}%
+    \hskip 0pt plus 1 fil minus 1 fil\relax
+    \usebeamertemplate***{title in head/foot}%
+    \hskip 0pt plus 1 fil minus 1 fil\relax
+    \kern\tudbeamerfooterpagenumwidth%
+    \hskip\beamer@rightmargin
+  }%
+}
+
+\defbeamertemplate{footline}{tud nopagenum}{%
+}[action]{%
+  \setbeamertemplate{footline}[tud nopagenum \tudbeamer@outer@style]%
+}
+
+
+\defbeamertemplate{frametitle}{tud titlesection}{%
+%  \vskip0.3ex%
+  \tudbeameremptyoutput{\insertframetitle}{}{%
+    \usebeamercolor[fg]{section in head/foot}%
+    \usebeamerfont{section in head/foot}%
+    \iftudbeameremptyoutput\insertsection{%
+      \strut\hfill\\%
+    }{%
+      \arabic{section} \insertsection\strut\\%
+    }%
+    \usebeamercolor[fg]{frametitle}%
+    \usebeamerfont{frametitle}%
+    \insertframetitle
+    \iftudbeameremptyoutput\insertframesubtitle{}{%
+      \strut\hfill\\%
+    }%
+  }%
+  \iftudbeameremptyoutput{\insertframesubtitle}{}{%
+    \vskip0.3ex
+    \usebeamercolor[fg]{framesubtitle}%
+    \usebeamerfont{framesubtitle}%
+    \insertframesubtitle%
+  }%
+  \strut
+  \usebeamerfont*{normal text}%
+}
+
+\defbeamertemplate{frametitle}{tud notitlesection}{%
+  \iftudbeameremptyoutput\insertframetitle{}{%
+    \usebeamercolor[fg]{frametitle}%
+    \usebeamerfont{frametitle}%
+    \insertframetitle
+    \iftudbeameremptyoutput\insertframesubtitle{}{%
+      \\%
+    }%
+  }%
+  \iftudbeameremptyoutput\insertframesubtitle{}{%
+    \vskip0.3ex
+    \usebeamercolor[fg]{framesubtitle}%
+    \usebeamerfont     {framesubtitle}%
+    \insertframesubtitle%
+  }%
+  \usebeamerfont* {normal text}%
+  \usebeamercolor*{normal text}%
+}
+
+\defbeamertemplate*{frametitle}{tud cd2018}{%
+  \vskip 0.05\paperheight
+  \iftudbeameremptyoutput{\insertframetitle}{}{%
+    \usebeamercolor[fg]{frametitle}%
+    \usebeamerfont{frametitle}%
+    \insertframetitle
+    \iftudbeameremptyoutput\insertframesubtitle{}{%
+      \\%
+    }%
+  }%
+  \iftudbeameremptyoutput\insertframesubtitle{}{%
+    \vskip0.3ex
+    \usebeamercolor[fg]{framesubtitle}%
+    \usebeamerfont     {framesubtitle}%
+    \insertframesubtitle%
+  }%
+  \usebeamerfont* {normal text}%
+  \usebeamercolor*{normal text}%
+}
+%\beamertemplateshadingbackground{white}{white}
+\setbeamercolor{normal text}{bg=white}%
+\if@useHeader%
+\setbeamertemplate{headline}[tud header]%
+\else
+\setbeamertemplate{headline}[tud noheader]%
+\fi
+
+\setbeamertemplate{headline/titlepage}[tud \tudbeamer@outer@style]%
+\setbeamertemplate{background/titlepage}[tud \tudbeamer@outer@style]%
+\setbeamertemplate{footline/titlepage}[tud \tudbeamer@outer@style]%
+
+\if@usePageNum%
+\setbeamertemplate{footline}[tud pagenum]%
+\else
+\setbeamertemplate{footline}[tud nopagenum]%
+\fi
+
+\if@useNoFrameTitleSection
+%\setbeamertemplate{frametitle}[tud notitlesection]%
+\else
+%\setbeamertemplate{frametitle}[tud titlesection]%
+\fi
+
+
+\def\maketitle{%
+  \ifbeamer@inframe{%
+    \PackageError{beamerouterthemetud}{Cannot set page style.^^J
+      \space Use \string\maketitle \space outside of any frame, please.^^J
+      ^^J
+      \space Die Titelseite konnte nicht konfiguriert werden.^^J
+      \space Verwenden Sie bitte \string\maketitle \space außerhalb von Folien.
+    }%
+    {%
+      \space See the TUD beamer style examples for further information.
+      \space http://GitHub.com/tud-cd/tud-cd
+    }%
+    \titlepage
+  }%
+  \else
+  {%
+    \setbeamertemplate{page layout}[titlepage]%
+    \tudbeamer@setcolor{background canvas}{parent=tud titlepage normal text \tudbeamer@outer@style}%
+    \tudbeamer@setcolor{normal text}{parent=tud titlepage normal text \tudbeamer@outer@style}%
+    \setbeamertemplate{headline}[titlepage]%
+    \setbeamertemplate{footline}[titlepage]%
+    \setbeamertemplate{sidebar left}[default]%
+    \setbeamertemplate{sidebar right}[default]%
+    \restoregeometry
+    \newgeometry{left=\beamer@leftmargin,
+      right=\beamer@rightmargin,
+      head=0pt,top=0pt,
+      headsep=0pt,
+      vmargin=0cm}%
+    \setbeamertemplate{background}[titlepage]%
+    \beamer@calculateheadfoot
+    \frame{\titlepage}%
+    \restoregeometry% does not work fully.
+  }%
+  \iftrue
+  \newgeometry{left=\beamer@leftmargin,
+    right=\beamer@rightmargin,
+    head=0pt,top=0pt,
+    headsep=0pt,
+    vmargin=0cm}%
+  \else
+  \restoregeometry
+  \fi
+  \beamer@calculateheadfoot
+  \fi
+}
+
+
+\long\def\partpage#1{%
+  \ifbeamer@inframe{%
+    \PackageError{outer theme TUD}{Cannot set page style.^^J
+      \spaces Use \string maketitle outside of any frame, please.^^J
+      ^^J
+      \spaces Die Titelseite konnte nicht konfiguriert werden.^^J
+      \spaces Verwenden Sie bitte \string\maketitle außerhalb von Folien.
+    }%
+    \titlepage
+  }%
+  \else
+  {%
+    \setbeamertemplate{page layout}[partpage]%
+    \tudbeamer@setcolor{normal text}{parent=tud titlepage normal text \tudbeamer@outer@style}%
+    \tudbeamer@setcolor{background canvas}{parent=tud titlepage normal text \tudbeamer@outer@style}%
+    \setbeamertemplate{headline}[tud header]%
+    \setbeamertemplate{footline}[tud pagenum]%
+    \setbeamertemplate{sidebar left}[default]%
+    \setbeamertemplate{sidebar right}[default]%
+    \restoregeometry
+    \newgeometry{left=\beamer@leftmargin,
+      right=\beamer@rightmargin,
+      head=0pt,top=0pt,
+      headsep=0pt,
+      vmargin=0cm}%
+    \setbeamertemplate{background}[titlepage]%
+    \beamer@calculateheadfoot
+    \frame{#1}%
+    \restoregeometry% does not work fully.
+  }%
+  \iftrue
+  \newgeometry{left=\beamer@leftmargin,
+    right=\beamer@rightmargin,
+    head=0pt,top=0pt,
+    headsep=0pt,
+    vmargin=0cm}%
+  \else
+  \restoregeometry
+  \fi
+  \beamer@calculateheadfoot
+  \fi
+}
+
+\iffalse
+\AtEndDocument{%
+    \clearpage
+    \beamer@tempcount=\c@page\advance\beamer@tempcount by -1%
+    \if@filesw
+        \immediate\write\@auxout{\string\@writefile{nav}%
+            {\noexpand\headcommand{\noexpand\beamer@partpages{\the\beamer@partstartpage}{\the\beamer@tempcount}}}}%
+        \immediate\write\@auxout{\string\@writefile{nav}%
+            {\noexpand\headcommand{\noexpand\beamer@subsectionpages{\the\beamer@subsectionstartpage}{\the\beamer@tempcount}}}}%
+        \immediate\write\@auxout{\string\@writefile{nav}%
+            {\noexpand\headcommand{\noexpand\beamer@sectionpages{\the\beamer@sectionstartpage}{\the\beamer@tempcount}}}}%
+        \immediate\write\@auxout{\string\@writefile{nav}%
+            {\noexpand\headcommand{\noexpand\beamer@documentpages{\the\beamer@tempcount}}}}
+        \immediate\write\@auxout{\string\@writefile{nav}%
+            {\noexpand\headcommand{\noexpand\def\noexpand\inserttotalframenumber{\the\c@framenumber}}}}
+        \addtocounter{page}{-1}
+        \immediate\write\@auxout{\string\@writefile{nav}%
+            {\noexpand\headcommand{\noexpand\def\noexpand\inserttotalpagenumber{\thepage}}}}
+        \newwrite\tf@nav
+        \immediate\openout\tf@nav\jobname.nav\relax
+        \newwrite\tf@toc
+        \immediate\openout\tf@toc\jobname.toc\relax
+        \newwrite\tf@snm
+        \immediate\openout\tf@snm\jobname.snm\relax
+    \fi%
+}
+\fi
+
+\mode<all>
+\tudbeamersetouterstyle{\tudbeamer@outer@style}
+% The following lines are not ok:
+%\AtBeginDocument{\setbeamersize{sidebar width left=0pt,
+%  sidebar width right=0pt}}%
+
+%\loggingoutput
+%\errorcontextlines\maxdimen

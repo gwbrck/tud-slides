@@ -1,0 +1,285 @@
+\ProvidesPackage{beamerfontthemetud}[2011/01/17 v1 TU Dresden font theme for Beamer class]
+
+\RequirePackage{ifluatex}
+
+\newif\if@check@tud@fonts
+\@check@tud@fontstrue
+
+\newif\if@noDIN\@noDINfalse
+\newif\if@sansmath\@sansmathtrue
+\newif\if@useHeavyFont\@useHeavyFontfalse
+\newif\if@useBeamerFont\@useBeamerFontfalse
+\newif\if@useUniversFont\@useUniversFontfalse
+
+\def\tudbeamer@font@style{cd2018}
+\DeclareOptionBeamer{cd2018}{%
+  \edef\tudbeamer@font@style{cd2018}%
+}
+\DeclareOptionBeamer{cd2012ts}{%
+  \edef\tudbeamer@font@style{cd2012ts}%
+  \@useUniversFonttrue
+}
+
+
+\providecommand\tudfontspackage{tudscrfonts}
+\def\check@tud@fonts@tudscrfonts{
+  \@check@tud@fontsfalse
+  \@for\@tudfontfile:=%
+    tudscrfonts.sty,%
+    8r0m6.fd,%
+    8rlun.fd,%
+    oml0m6.fd,%
+    omllun.fd,%
+    oms0m6.fd,%
+    omslun.fd,%
+    ot10m6.fd,%
+    ot1lun.fd,%
+    ot1lunt.fd,%
+    t10m6.fd,%
+    t1lun.fd,%
+    t1lunt.fd,%
+    ts10m6.fd,%
+    ts1lun.fd,%
+    ts1lunt.fd%
+  \do{%
+    \IfFileExists{\@tudfontfile}{}{\@check@tud@fontstrue}%
+  }
+  \if@check@tud@fonts
+    \def\tudfontspackage{tudfonts}%
+    \check@tud@fonts@tudfonts%
+  \fi
+}
+
+\def\check@tud@fonts@tudfonts{%
+  \@check@tud@fontsfalse
+  \@for\@tudfontfile:=%
+    tudfonts.sty,%
+    8raub.fd,%
+    8raun.fd,%
+    8rdin.fd,%
+    ot1aub.fd,%
+    ot1aun.fd,%
+    ot1din.fd,%
+    t1aub.fd,%
+    t1aun.fd,%
+    t1din.fd,%
+    ts1aub.fd,%
+    ts1aun.fd,%
+    ts1din.fd%
+  \do{%
+    \IfFileExists{\@tudfontfile}{}{%
+      \def\tudfontspackage{}%
+      \@useUniversFontfalse
+    }
+  }
+}
+
+\DeclareOptionBeamer{beamerfont}{\@useBeamerFonttrue}
+\DeclareOptionBeamer{cp2012ts}{
+  \@useUniversFonttrue
+}
+\if@useBeamerFont
+\else
+  \csname check@tud@fonts@\tudfontspackage \endcsname
+\fi
+
+
+
+\DeclareOptionBeamer{noeulermath}{\PassOptionsToPackage{noeulermath}{tudfonts}}
+
+\DeclareOptionBeamer{noDIN}{
+  \@noDINtrue
+  \PassOptionsToPackage{noDIN}{\tudfontspackage}
+}
+
+\DeclareOptionBeamer{nodin}{
+  \@noDINtrue
+  \PassOptionsToPackage{noDIN}{\tudfontspackage}
+  \PackageWarning{beamerfontthemetud}{Option `nodin' is obsolete use `noDIN', please!}
+}
+
+
+\DeclareOptionBeamer{serifmath}{%
+  \@sansmathfalse
+  \PassOptionsToPackage{serifmath}{\tudfontspackage}
+}
+
+\DeclareOptionBeamer{heavyfont}{\PassOptionsToPackage{heavyfont}{\tudfontspackage}}
+
+\ProcessOptionsBeamer
+
+
+\def\tud@font@setup@beamer@tudfonts{}
+\def\tud@font@setup@beamer@tudscrfonts{%
+  \def\dinfamily{\dinbn}%
+  \let\dinBold\dinfamily%
+}
+\AtBeginDocument{%
+  \providecommand*\dinfamily{%
+    \PackageWarning{beamerfontthemetud}{%
+      Neither package `tudscrfonts' nor `tudfonts' was loaded!^^J%
+      So \backslash dinfamily is not available.
+    }%
+  }%
+  \providecommand*\dinBold{\dinfamily}%
+}
+
+\if@useBeamerFont
+\else
+\if@useUniversFont
+  \RequirePackage{\tudfontspackage}
+  \csname tud@font@setup@beamer@\tudfontspackage \endcsname
+\else
+  \@noDINtrue
+  \ifluatex
+  % Load fontspec and define a document font:
+    \usefonttheme{professionalfonts}
+    \usepackage{fontspec}
+    \setmainfont{TeX Gyre Pagella}
+
+    \RequirePackage{unicode-math}
+    \IfFontExistsTF{Open Sans}{%
+      \PackageInfo{Beamer Font Theme TUD}{Using default Open Sans font}
+      \if@sansmath
+      \setmathfont{XITS Math}
+      \fi
+      \setmainfont{Open Sans}
+      \setsansfont{Open Sans}
+%      \setmathfont{texgyrepagella-math.otf}
+ %     \setmathfont{OpenSans}
+      % \setmathfont[math-style=TeX]{Latin Modern Math}
+      % \setmathfont{Asana Math}%
+      % \setmathfont[range=\mathbfsfit/{greek,Greek,latin,Latin}]{Open Sans}
+      % up , it , tt , bfup , bfit , bb , bbit , scr , bfscr , cal , bfcal ,
+      % frak , bffrak , sfup , sfit , bfsfup , bfsfit , bfsf
+      \if@sansmath
+      \setmathfont[range={up}]{Open Sans}
+      \setmathfont[range={it}]{Open Sans Italic}
+      \setmathfont[range={bfup}]{Open Sans Bold}
+      \setmathfont[range={bfit}]{Open Sans Bold Italic}
+      \setmathfont[range={sfup}]{Open Sans Condensed Light}
+      \setmathfont[range={sfit}]{Open Sans Condensed Light Italic}
+      \setmathfont[range={bfsfup}]{Open Sans Light}
+      \setmathfont[range={bfsfit}]{Open Sans Light Italic}
+      \setmathfont[range=\mathfrak]{STIXGeneral}
+      \fi
+      %\setmathfont{Open Sans}
+      %\renewcommand*\setminus{\mathbin{\mathsf{\backslash}}}
+      % \setmonofont{Open Sans}
+      % \setmathsf{Open Sans}
+      % \setmathrm{Open Sans}
+      % \setmathtt{Open Sans}
+      % \setboldmathrm{Open Sans}
+      %\setmathfont{Asana Math}
+    }{%
+      \PackageError{Beamer Font Theme TUD}{^^J%
+        Die Schrift ,,Open Sans'' konnte nicht gefunden werden.^^J%
+        Could not load Open Sans font.%
+      }{%
+        Das bedeutet meist, dass Sie die Fonts von der TU Dresden^^J%
+        herunterladen und in Ihrem Fontverzeichnis installieren müssen.^^J%
+        Alternativ können Sie auch das entsprechende Schriftpacket (opensans)^^J%
+        Ihrer TeX-Distribution oder Ihres Betriebssystems installieren.^^J%
+        ^^J%
+        Please install Open Sans for your Operating system.^^J%
+        This usually means that you have to download the Open Sans Package^^J%
+        from the TU Dresden homepage.^^J%
+        Alternatively, you could install the corresponding font package^^J%
+        (opensans) for your TeX distribution or your operating system.^^J%
+      }%
+    }
+	\IfFontExistsTF{STIX}{
+      \setmathfont[range=\mathfrak]{STIX}
+	}{
+      \PackageError{Beamer Font Theme TUD}{^^J%
+        Die Schrift ,,STIX'' konnte nicht gefunden werden.^^J%
+        Could not load STIX font.%
+      }{%
+        Das bedeutet meist, dass Sie die Fonts von der TU Dresden^^J%
+        herunterladen und in Ihrem Fontverzeichnis installieren müssen.^^J%
+        Alternativ können Sie auch das entsprechende Schriftpacket (stix)^^J%
+        Ihrer TeX-Distribution oder Ihres Betriebssystems installieren.^^J%
+        ^^J%
+        Please install STIX for your Operating system.^^J%
+        This usually means that you have to download the STIX Package^^J%
+        from the TU Dresden homepage.^^J%
+        Alternatively, you could install the corresponding font package^^J%
+        (stix) for your TeX distribution or your operating system.^^J%
+      }%
+    }
+  \else
+  \RequirePackage[default,defaultsans]{opensans}
+  \let\rmdefault\familydefault
+  \fi
+\fi
+\fi
+
+\if@sansmath
+\else
+  \usefonttheme[onlymath]{serif}
+\fi
+
+\def\tudfonts@defstyle#1{%
+  \expandafter\def\csname tudbeamer@font@style@#1\endcsname
+}
+
+\def\tudfontsloadstyle#1{
+  \csname tudbeamer@font@style@#1\endcsname
+}
+\tudfonts@defstyle{cd2012ts}{%
+  \newcommand*\tudtitlenormalsize{\@setfontsize\tudtitlenormalsize\@xipt{13.6}}
+  \newcommand*\tudtitlesmall{\@setfontsize\tudtitlesmall\@xpt\@xiipt}
+  \newcommand*\tudtitletiny{\@setfontsize\tudtitletiny\@vipt\@viipt}
+  \newcommand*\tudtitleLARGE{\@setfontsize\LARGE\@xviipt{22}}
+  \newcommand*\tudfoottiny{\@setfontsize\tudfoottiny%
+    {.347309973197\tudbeamerlogoheight}%
+    {.347309973197\tudbeamerlogoheight}%
+  }
+  \setbeamerfont{einrichtung/titlepage}{size=\tudtitletiny,series=\bfseries}
+  \setbeamerfont{fachrichtung/titlepage}{size=\tudtitletiny}
+  \setbeamerfont{institut/titlepage}{parent=fachrichtung/titlepage}
+  \setbeamerfont{professur/titlepage}{parent=fachrichtung/titlepage}
+  \setbeamerfont{date in head/foot/titlepage}{size=\tudtitlenormalsize}
+  \setbeamerfont{author/titlepage}{size=\tudtitlesmall}
+  \setbeamerfont{subtitle}{series=\bfseries,family=\sffamily}
+  \setbeamerfont{frametitle}{size=\normalsize,family=\sffamily}
+  \setbeamerfont{framesubtitle}{size=\small,series=\bfseries,family=\sffamily}
+}
+\tudfonts@defstyle{cd2018}{%
+  \newcommand*\tudtitlenormalsize{\@setfontsize\tudtitlenormalsize{0.02963\paperheight}{0.02963\paperheight}}
+  \newcommand*\tudtitleLARGE{\@setfontsize\tudtitleLARGE{0.059259\paperheight}{0.059259\paperheight}}
+  \newcommand*\tudtitlesmall{\@setfontsize\tudtitlesmall{.0246916\paperheight}{.0046916\paperheight}}
+  \newcommand*\tudtitletiny{\@setfontsize\tudtitletiny{.02057638\paperheight}{.02057638\paperheight}}
+  \newcommand*\tudfoottiny{\@setfontsize\tudfoottiny%
+    {.347309973197\tudbeamerlogoheight}%
+    {.347309973197\tudbeamerlogoheight}%
+  }
+  \setbeamerfont{author/titlepage}{size=\tudtitlenormalsize,series=\mdseries,family=\sffamily}
+  \setbeamerfont{einrichtung/titlepage}{parent=author/titlepage}
+  \setbeamerfont{fachrichtung/titlepage}{parent=einrichtung/titlepage}
+  \setbeamerfont{institut/titlepage}{parent=fachrichtung/titlepage}
+  \setbeamerfont{professur/titlepage}{parent=fachrichtung/titlepage}
+  \setbeamerfont{date in head/foot/titlepage}{size=\tudtitlenormalsize,family=\sffamily}
+  \setbeamerfont{subtitle}{size=\tudtitlenormalsize,series=\mdseries,family=\sffamily}
+  \setbeamerfont{frametitle}{size=\LARGE,family=\sffamily,series=\bfseries}
+  \setbeamerfont{framesubtitle}{size=\LARGE,family=\sffamily,series=\mdseries}
+}
+
+\tudfontsloadstyle{\tudbeamer@font@style}
+
+%\setbeamerfont{itemize/enumerate subbody}{size=\scriptsize}
+%\setbeamerfont{itemize/enumerate subsubbody}{size=\scriptsize}
+\setbeamerfont{description item}{parent=item,series=\bfseries}
+\setbeamerfont{section in head/foot}{size=\normalsize,family=\sffamily}
+\setbeamerfont{footline}{size=\tudfoottiny}
+\setbeamerfont{page number in footline}{size=\tudfoottiny}
+\setbeamerfont{title in head/foot}{family=\sffamily}
+\setbeamerfont{block title}{size={}}
+\setbeamerfont{part page/title}{parent=title}
+\setbeamerfont{part page/subtitle}{parent=part page/title,series=\mdseries}
+
+\if@noDIN
+  \setbeamerfont{title}{size=\tudtitleLARGE,series=\bfseries,family=\sffamily}
+\else
+  \setbeamerfont{title}{size=\tudtitleLARGE,series=\bfseries,family=\dinfamily}
+\fi

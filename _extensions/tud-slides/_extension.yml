@@ -14,6 +14,8 @@ contributes:
           path: apaandcite.lua
     beamer:
         pdf-engine: pdflatex
+        format-resources: 
+         - themes
         aspectratio: 169
         fontsize: 10pt
         theme: "tud"

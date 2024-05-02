@@ -1,0 +1,254 @@
+\ProvidesPackage{tudbeamermacros}[2018/01/10 v1.0 common macros for the beamer styles of TU Dresden]
+
+\newcommand*\tudbeamer@savesizes[1]{%
+  \edef#1{%
+    \noexpand\tudbeamer@logowidth\the\tudbeamer@logowidth\relax
+    \noexpand\tudbeamer@logoleftmargin\the\tudbeamer@logoleftmargin\relax
+    \noexpand\tudbeamer@logotopmargin\the\tudbeamer@logotopmargin\relax
+  }%
+}
+
+\newcommand*\tudsavebeamertemplate[2]{%
+  \expandafter\let\expandafter#2\csname beamer@@tmpl@#1\endcsname
+}
+
+\newcommand*\tudrestorebeamertemplate[2]{%
+  \expandafter\let\csname beamer@@tmpl@#1\endcsname#2
+}
+
+\providecommand\tudsavebeamercolor[2]{
+  \expandafter\let\expandafter\@tempa\csname beamer@thcuse@#1\endcsname%
+  \expandafter\let\csname tud@color@#2@thcuse@#1\endcsname\@tempa
+  \expandafter\let\expandafter\@tempa\csname beamer@thcinherits@#1\endcsname%
+  \expandafter\let\csname tud@color@#2@thcinherits@#1\endcsname\@tempa
+  \expandafter\let\expandafter\@tempa\csname beamer@thcfg@#1\endcsname%
+  \expandafter\let\csname tud@color@#2@thcfg@#1\endcsname\@tempa
+  \expandafter\let\expandafter\@tempa\csname beamer@thcbg@#1\endcsname%
+  \expandafter\let\csname tud@color@#2@thcbg@#1\endcsname\@tempa
+}
+
+\providecommand\tudrestorebeamercolor[2]{
+  \expandafter\let\expandafter\@tempa\csname tud@color@#2@thcuse@#1\endcsname%
+  \expandafter\let\csname beamer@thcuse@#1\endcsname\@tempa
+  \expandafter\let\expandafter\@tempa\csname tud@color@#2@thcinherits@#1\endcsname%
+  \expandafter\let\csname beamer@thcinherits@#1\endcsname\@tempa
+  \expandafter\let\expandafter\@tempa\csname tud@color@#2@thcfg@#1\endcsname%
+  \expandafter\let\csname beamer@thcfg@#1\endcsname\@tempa
+  \expandafter\let\expandafter\@tempa\csname tud@color@#2@thcbg@#1\endcsname%
+  \expandafter\let\csname beamer@thcbg@#1\endcsname\@tempa
+}
+
+
+\providecommand*\tudbeamer@def[1]{%
+  \expandafter\newcommand\expandafter*%
+  \csname tudbeamer@#1\endcsname%
+}
+
+
+
+\newcommand*\@einrichtung{}
+\newcommand*\@fachrichtung{}
+\newcommand*\@institut{}
+\newcommand*\@professur{}
+
+\newcommand*{\einrichtung}[1]{\renewcommand*{\@einrichtung}{#1}}
+\newcommand*{\fachrichtung}[1]{\renewcommand*{\@fachrichtung}{#1}}
+\newcommand*{\institut}[1]{\renewcommand*{\@institut}{#1}}
+\newcommand*{\professur}[1]{\renewcommand*{\@professur}{#1}}
+
+\newcommand*{\datecity}[1]{\renewcommand*{\insertdatecity}{#1}}
+
+
+\newlength\tudbeamerlogotopmargin
+\newlength\tudbeamerlogoleftmargin
+\newlength\tudbeamerlogowidth
+\newlength\tudbeamerlogoheight
+\newlength\tudbeamerfooterplacewidth
+\newlength\tudbeamerfootercontentwidth
+\newlength\tudbeamerfooterpagenumwidth% Layout width
+\newlength\tudbeamer@footerpagenumwidth% measurement of page number width
+\newlength\tudbeamerbackgroundheight
+\newlength\tudbeamerbackgroundwidth
+
+\setlength\tudbeamer@footerpagenumwidth{0pt}
+
+% check for emptyness
+% https://tex.stackexchange.com/a/53091/25948
+% for explanation
+\newcommand*\tudbeamerunspace{%
+  \ifnum\lastnodetype=11
+    \unskip\tudbeamerunspace
+  \else
+    \ifnum\lastnodetype=12
+      \unkern\tudbeamerunspace
+    \else
+      \ifnum\lastnodetype=13
+        \unpenalty\tudbeamerunspace
+      \fi
+    \fi
+  \fi
+}
+\newcommand*\iftudbeameremptymacro[1]{%
+  \if\relax\detokenize{#1}\relax
+  \let\tudbeamer@tempa\@firstoftwo
+  \else
+  \let\tudbeamer@tempa\@secondoftwo
+  \fi
+  \tudbeamer@tempa
+}
+\newcommand*\iftudbeameremptyoutput[1]{%
+  \setbox0=\hbox{#1\tudbeamerunspace}\ifdim\wd0=0pt
+  \let\tudbeamer@tempa\@firstoftwo
+  \else
+  \let\tudbeamer@tempa\@secondoftwo
+  \fi
+  \tudbeamer@tempa
+}
+
+
+% frame title
+\gdef\frame@title@section{}
+\def\frametitle{\secdef\tud@frametitlea\tud@frametitles}
+\newcommand<>\tud@frametitlea{\gdef\frame@title@section{\ifnum\c@section>9\else 0\fi\arabic{section}\,\,}\alt#1{\@dblarg\beamer@@frametitle}{\beamer@gobbleoptional}}
+\newcommand<>\tud@frametitles{\gdef\frame@title@section{}\alt#1{\@dblarg\beamer@@frametitle}{\beamer@gobbleoptional}}
+
+\def\printpagelayout{%
+  \typeout{paper: \the\paperwidth\space  x \the\paperheight\space ^^J
+    text: \the\textwidth\space  x \the\textheight^^J
+    margins: \the\evensidemargin, \the\oddsidemargin^^J
+    top: \the\topmargin, \the\topskip^^J
+    head: \the\headheight, \the\headsep^^J
+    foot: \the\footskip,^^J
+    baseline: \the\baselineskip,^^J
+    marginpar: \the\marginparwidth, \the\marginparsep^^J
+    cols: \the\columnsep, \the\hoffset, \the\voffset^^J
+    geometry: \the\Gm@layoutwidth\space  x \the\Gm@layoutheight\space  +
+    \the\Gm@layouthoffset\space  + \the\Gm@layoutvoffset^^J}%
+  \typeout{\if@twocolumn 2col \else 1col \fi}%
+  \typeout{\if@twoside 2side \else 1side \fi}%
+  \typeout{\if@mparswitch mpar \else no mpar \fi}%
+  \typeout{\if@reversemargin reverse margin \else margin \fi}%
+  \typeout{col: ht \the\@colht room \the\@colroom^^J
+    size: \the\hsize x \the\vsize^^J
+    colwidth: \the\columnwidth^^J
+    linewidth: \the\linewidth ^^J
+  }%
+  \typeout{bindekorrektur: \the\Gm@bindingoffset^^J
+    wd mp: \the\Gm@wd@mp
+    odd mp: \the\Gm@odd@mp
+    even mp: \the\Gm@even@mp
+  }%
+}
+
+\def\tudbeamer@save@length#1{%
+  \noexpand\setlength#1{\the#1}%
+}
+
+\newcommand\tudbeamer@savelayout[1]{%
+  \savegeometry{#1}%
+  \expandafter\edef\csname tudbeamer@savedlayout@#1\endcsname{%
+    \tudbeamer@save@length\@colht
+    \tudbeamer@save@length\@colroom
+    \tudbeamer@save@length\hsize
+    \tudbeamer@save@length\vsize
+    \tudbeamer@save@length\columnwidth
+    \tudbeamer@save@length\linewidth
+    %\tudbeamer@save@length\Gm@lmargin
+    %\tudbeamer@save@length\Gm@rmargin
+  }%
+}
+\newcommand\tudbeamer@loadlayout[1]{%
+  \loadgeometry{#1}%
+  \csname tudbeamer@savedlayout@#1\endcsname
+}
+
+\newcommand\tudbeamermakefooterbox[2]{%
+  \vbox to \tudbeamerlogoheight{%
+    \hsize=#1\relax
+    \setbox\@tempboxa\vbox{%
+      \hsize=#1\relax
+      \lineskip=0pt
+      \lineskiplimit 0pt
+      \centering
+      \strut
+      #2\relax
+      \strut\\%
+      \ifdim\vsize > 2.1\baselineskip
+        \vsize=3\baselineskip
+      \fi
+    }%
+    \setlength\@tempdima{0.4\tudbeamerlogoheight}%
+    \setlength\@tempdimb{\ht\@tempboxa}%
+    \ifdim\@tempdimb>\@tempdima
+      \usebox\@tempboxa
+    \else
+      \vfill
+      \usebox\@tempboxa
+      \vfill
+    \fi
+    \vss
+  }%
+}
+
+\def\framenumberbox#1{%
+  \hphantom{\insertpresentationendframe}\llap{#1}%
+}
+\def\pagenumberbox#1{%
+  \hphantom{\insertpresentationendframe}\llap{#1}%
+}
+
+\newcommand\tudbeamersetpagenumberwidths[2]{%
+  \def\insertpresentationendframe{#1}%
+  \def\insertpresentationendpage{#2}%
+}
+
+\newcommand{\tudbeamer@appendixstart}{%
+  \edef\insertpresentationendframe{\insertframenumber}%
+  \edef\insertpresentationendpage{\insertpagenumber}%
+  \immediate\write\@auxout{\string\@writefile{nav}%
+    {%
+      \noexpand\headcommand{%
+        \noexpand\tudbeamersetpagenumberwidths{\insertpresentationendframe}%
+        {\insertpresentationendpage}%
+      }%
+    }%
+  }%
+  \immediate\write\@auxout{%
+    \noexpand\def\noexpand\settudbeamerfooterpagenumwidth{%
+      \noexpand\setlength\noexpand\tudbeamerfooterpagenumwidth{\the\tudbeamer@footerpagenumwidth}%
+    }%
+  }
+  \let\tudbeamer@enddocument\relax
+  \let\settudbeamerfooterpagenumwidth\settudbeamerfooterpagenumendwidth
+  \settudbeamerfooterpagenumwidth
+}
+
+\newcommand\settudbeamerfooterpagenumwidth{
+  \setlength\tudbeamerfooterpagenumwidth{2em}%
+}
+\let\settudbeamerfooterpagenumendwidth\settudbeamerfooterpagenumwidth
+\providecommand{\framenumberbox}[1]{\hbox{#1}}
+\providecommand{\pagenumberbox}[1]{\hbox{#1}}
+\providecommand{\insertpresentationendframe}{??}
+\providecommand{\insertpresentationendpage}{??}
+\providecommand*{\insertdatecity}{Dresden}
+\providecommand*\inserttotalpagenumber{??}
+\providecommand*\inserttotalframenumber{??}
+\let\tudbeamer@origappendix\appendix
+\def\appendix{%
+  \tudbeamer@appendixstart
+  \tudbeamer@origappendix
+}
+
+\newcommand{\tudbeamer@enddocument}{\tudbeamer@appendixstart}
+\AtEndDocument{
+  \immediate\write\@auxout{%
+    \noexpand\def\noexpand\settudbeamerfooterpagenumendwidth{%
+      \noexpand\setlength\noexpand\tudbeamerfooterpagenumwidth{\the\tudbeamer@footerpagenumwidth}%
+    }%
+  }
+  \immediate\write\@auxout{%
+    \noexpand\global\noexpand\def\noexpand\inserttotalpagenumber{\insertpagenumber}%
+  }
+  \tudbeamer@enddocument
+}

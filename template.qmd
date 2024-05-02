@@ -6,7 +6,7 @@ format:
 author: gwbrck
 institute: "Institut für Kommunikationswissenschaft"
 date: last-modified
-bibliography: "/Users/gwbrck/Documents/Bib/main.json"
+bibliography: "/Users/gwbrck/bib.json"
 lang: de
 ---
 

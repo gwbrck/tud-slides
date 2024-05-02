@@ -1,0 +1,144 @@
+\ProvidesPackage{beamercolorthemetud}[2011/01/17 v1 Tobias Schlemmer]
+\def\tudbeamer@color@style{cd2018}
+\DeclareOptionBeamer{cd2018}{%
+  \PassOptionsToPackage{cd2018}{tudcolors}
+  \def\tudbeamer@color@style{cd2018}
+}
+\DeclareOptionBeamer{cd2012ts}{%
+  \PassOptionsToPackage{cd2012ts}{tudcolors}%
+  \def\tudbeamer@color@style{cd2012ts}
+}
+
+\ProcessOptionsBeamer
+
+\RequirePackage{tudbeamermacros}%
+\iffalse
+\def\tudbeamer@fixcolormodel{%
+  \selectcolormodel{RGB}%
+  \typeout{no color model}%
+}%
+\tudbeamer@def{colorspace@cd2018}{%
+  \def\tudbeamer@fixcolormodel{%
+    \selectcolormodel{RGB}%
+    \typeout{2018 color model}%
+  }%
+}
+\tudbeamer@def{colorspace@cd2012ts}{%
+  \def\tudbeamer@fixcolormodel{%
+    \selectcolormodel{cmyk}%
+    \typeout{2012 color model}%
+  }%
+}
+%\csname tudbeamer@colorspace@\tudbeamer@color@style\endcsname
+\fi
+\RequirePackage{tudcolors}
+
+\def\tudbeamer@setcolor#1#2{%
+  \edef\@tempa{{#1}{#2}}%
+  \expandafter\setbeamercolor\@tempa
+}
+
+\setbeamercolor{normal text}{fg=tudbase,bg=white}
+\setbeamercolor{tud titlepage normal text cd2012ts}{fg=white,bg=tudbase}
+\setbeamercolor{tud titlepage normal text cd2018}{fg=white,bg=white}
+\setbeamercolor{structure}{fg=tudbase}
+\setbeamercolor{titleshading}{fg=tudbase,bg=tudaccent2}
+\setbeamercolor{alerted text}{fg=tudalert}
+\setbeamercolor{alternate palette}{fg=tudgrey}
+%\setbeamercolor{frametitle}{fg=tudgrey 80}
+%\setbeamercolor{framesubtitle}{use=normal text,fg=normal text.fg}
+
+
+\setbeamercolor{date in head/foot}{parent=alternate palette}
+\setbeamercolor{date/place in footline}{parent=date in head/foot}
+\setbeamercolor{title in head/foot}{parent=date/place in footline}
+\setbeamercolor{page number in head/foot}{parent=date/place in footline}
+\setbeamercolor{page number in footline}{parent=date/place in footline}
+\setbeamercolor{section in head/foot}{parent=alternate palette}
+\setbeamercolor{subsection in head/foot}{parent=section in head/foot}
+\setbeamercolor{upper separation line head}{parent=alternate palette}
+\setbeamercolor{lower separation line head}{parent=upper separation line head}
+\setbeamercolor{upper separation line foot}{parent=upper separation line head}
+
+\setbeamercolor{author in head/foot}{parent=section in head/foot}
+\setbeamercolor{title in head/foot}{parent=subsection in head/foot}
+
+\setbeamercolor{logo}{use=structure,fg=structure.fg}
+
+
+\def\darktitlepage{%
+  \setbeamercolor{normal text/titlepage}{fg=white,bg=tudbase}%
+  \setbeamercolor{title}{use=normal text/titlepage,fg=normal text/titlepage.fg}%
+  \setbeamercolor{subtitle}{use=normal text/titlepage,fg=normal text/titlepage.fg}%
+  \setbeamercolor{author/titlepage}{use=normal text/titlepage,fg=normal text/titlepage.fg}%
+  \setbeamercolor{headline/titlepage}{use=normal text/titlepage,fg=normal text/titlepage.fg}%
+  \setbeamercolor{logo/titlepage}{use=normal text/titlepage,fg=normal text/titlepage.fg}%
+  \setbeamercolor{einrichtung/titlepage}{use=normal text/titlepage,fg=normal text/titlepage.fg}%
+  \setbeamercolor{fachrichtung/titlepage}{use=einrichtung/titlepage,fg=einrichtung/titlepage.fg}%
+  \setbeamercolor{institut/titlepage}{use=einrichtung/titlepage,fg=einrichtung/titlepage.fg}%
+  \setbeamercolor{professur/titlepage}{use=einrichtung/titlepage,fg=einrichtung/titlepage.fg}%
+  \setbeamercolor{upper separation line head/titlepage}{use=normal text/titlepage,fg=normal text/titlepage.fg}%
+  \setbeamercolor{lower separation line head/titlepage}%
+    {use=upper separation line head/titlepage,fg=upper separation line head/titlepage.fg}%
+  \setbeamercolor{date in head/foot/titlepage}{use=normal text/titlepage,fg=normal text/titlepage.fg}%
+  \let\logo@DDC\logo@DDC@white
+  \let\logo@DDCf\logo@DDC@whitef
+}
+
+\def\whitetitlepage{%
+  \setbeamercolor{normal text/titlepage}
+    {use=normal text,fg=normal text.fg,bg=normal text.bg}
+  \setbeamercolor{title}{use=normal text/titlepage,fg=normal text/titlepage.fg}%
+  \setbeamercolor{subtitle}{use=normal text/titlepagexo,fg=normal text/titlepage.fg}%
+  \setbeamercolor{author/titlepage}{use=normal text/titlepage,fg=normal text/titlepage.fg}%
+  \setbeamercolor{headline/titlepage}{use=normal text/titlepage,fg=normal text/titlepage.fg}%
+  \setbeamercolor{logo/titlepage}{use=normal text/titlepage,fg=normal text/titlepage.fg}%
+  \setbeamercolor{einrichtung/titlepage}{fg=tudgrey}%
+  \setbeamercolor{fachrichtung/titlepage}{use=einrichtung/titlepage,fg=einrichtung/titlepage.fg}%
+  \setbeamercolor{institut/titlepage}{use=einrichtung/titlepage,fg=einrichtung/titlepage.fg}%
+  \setbeamercolor{professur/titlepage}{use=einrichtung/titlepage,fg=einrichtung/titlepage.fg}%
+  \setbeamercolor{upper separation line head/titlepage}{fg=tudgrey}%
+  \setbeamercolor{lower separation line head/titlepage}%
+    {use=upper separation line head/titlepage,fg=upper separation line
+      head/titlepage.fg}%
+  \setbeamercolor{date in head/foot/titlepage}{fg=tudgrey}%
+  \let\logo@DDC\logo@DDC@bunt%
+  \let\logo@DDCf\logo@DDC@colorf
+  \setbeamercolor{footline}{fg=tudgrey}
+}
+
+\setbeamercolor{part page/title}{parent=title}
+\setbeamercolor{part page/subtitle}{parent=subtitle}
+\def\logo@DDC@white{DDC-weiss}
+\def\logo@DDC@whitef{DDC-weissf}
+\def\logo@DDC@color{DDC-color}
+\def\logo@DDC@color{DDC-colorf}
+
+\darktitlepage
+
+% Die folgenden Einstellungen könnnen nur sehr freie Übersetzungen des
+% CD sein
+\setbeamercolor{block body}{use=normal text,fg=normal text.fg,bg=tudbase 10}
+%\setbeamercolor{block title}{fg=tudaccent6,bg=tudbase 20}
+\setbeamercolor{block title}{fg=tudbase,bg=tudbase 20}
+\setbeamercolor{block body example}{use=normal text,fg=normal text.fg,bg=tudbase 10}
+\setbeamercolor{block title example}{fg=tudbase,bg=tudbase 20}
+
+\setbeamercolor{block body alerted}{use=normal text,fg=normal text.fg,bg=tudaccent3 10}
+\setbeamercolor{block title alerted}{fg=tudalert,bg=tudaccent3 20}
+
+
+\setbeamercolor{footline}{fg=tudgrey,bg=white}
+\setbeamercolor{institute}{fg=tudgrey,bg=white}
+\setbeamercolor{institute in head/foot}{fg=tudgrey,bg=white}
+\setbeamercolor{date/place in head/foot}{fg=tudgrey}
+
+\def\tudbeamer@set@colors#1{%
+  \setbeamercolor{tud titlepage normal text}{parent=tud titlepage normal text #1}
+}
+\def\settudbeamercolors#1{%
+  \edef\@tempa{#1}%
+  \let\tudbeamer@color@style{#1}%
+  \expandafter\tudbeamer@set@colors\expandafter{\tudbeamer@color@style}%
+}
+\expandafter\tudbeamer@set@colors\expandafter{\tudbeamer@color@style}%
