@@ -13,6 +13,7 @@ contributes:
         - at: post-render
           path: apaandcite.lua
     beamer:
+        keep-tex: false
         pdf-engine: pdflatex
         format-resources: 
          - themes
