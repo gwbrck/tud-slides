@@ -16,8 +16,8 @@ contributes:
         keep-tex: false
         pdf-engine: pdflatex
         format-resources: 
-         - tud-beamerstyle
-         - tudmathposter
+         - tud-beamerstyle/*
+         - tudmathposter/*
         aspectratio: 169
         fontsize: 10pt
         theme: "tud"
