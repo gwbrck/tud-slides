@@ -14,10 +14,11 @@ contributes:
           path: apaandcite.lua
     beamer:
         keep-tex: false
-        pdf-engine: pdflatex
+        pdf-engine: lualatex
+        header-includes:
+         - \usepackage{emoji}
         format-resources: 
          - tud-beamerstyle/*
-         - tudmathposter/*
         aspectratio: 169
         fontsize: 10pt
         theme: "tud"
