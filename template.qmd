@@ -3,11 +3,9 @@ title: Untitled
 subtitle: Unsubtitled
 format:
   tud-slides-beamer: default
-author: gwbrck
+author: Gregor Willenbrock
 institute: "Institut für Kommunikationswissenschaft"
 date: last-modified
-bibliography: "/Users/gwbrck/bib.json"
-lang: de
 ---
 
 # Intro

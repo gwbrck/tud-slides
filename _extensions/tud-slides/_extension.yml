@@ -4,21 +4,13 @@ version: 1.0.0
 quarto-required: ">=1.4.0"
 contributes:
   formats:
-    common:
-      citeproc: false
-      csl: apa.csl
-      filters:
-        - at: post-render
-          path: citeprocr.lua
-        - at: post-render
-          path: apaandcite.lua
     beamer:
         keep-tex: false
         pdf-engine: lualatex
         header-includes:
-         - \usepackage{emoji}
+          - \usepackage{emoji}
         format-resources: 
-         - tud-beamerstyle/*
+          - tud-beamerstyle/*
         aspectratio: 169
         fontsize: 10pt
         theme: "tud"
